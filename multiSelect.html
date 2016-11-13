@@ -1,0 +1,50 @@
+<div class="multi-select">
+    <button id="select-button"
+        type="button"
+        class="btn btn-default"
+        ng-click="$ctrl.toggleDropDown( $event )"
+        ng-disabled="disable-button">
+        <span>
+            {{$ctrl.buttonText()}}
+        </span>
+        <!-- <i class="glyphicon glyphicon-triangle-bottom button-icon"></i> -->
+    </button>
+    <div class="drop-down" ng-show="toggled">
+        <div class="button-set-container" ng-show="$ctrl.powerSelect">
+            <button
+                type="button"
+                class="btn btn-sm btn-default">
+                select all
+            </button>
+            <button
+                type="button"
+                class="btn btn-sm btn-default">
+                select none
+            </button>
+            <button
+                type="button"
+                class="btn btn-sm btn-default">
+                reset
+            </button>
+        </div>
+        <div class="search-box-container"
+            ng-show="$ctrl.powerSearch">
+            <input type="text"
+                ng-model="searchKey"
+                ng-change="$ctrl.onSearchChange($event)">
+            </input>
+        </div>
+        <div nice-scrollbar suppress-scroll-x class="drop-down-list">
+            <ul>
+                <li ng-repeat="node in model"
+                    ng-show="node.filtered">
+                    <a class=not-wrap
+                        ng-click="$ctrl.onSelectItem(node)"
+                        ng-class="{'selected': node.selected}">
+                        <span>{{node.name}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

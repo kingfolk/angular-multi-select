@@ -1,0 +1,27 @@
+{
+  "name": "angular-multi-select",
+  "version": "1.0.0",
+  "description": "type-in filter and multi select element in dropdown interactively",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "angular",
+    "multi-select"
+  ],
+  "author": "Jialei Jin",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.5.6"
+  },
+  "devDependencies": {
+    "css-loader": "^0.25.0",
+    "html-loader": "^0.4.4",
+    "node-sass": "^3.11.3",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2"
+  }
+}
