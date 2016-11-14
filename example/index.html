@@ -17,8 +17,18 @@
 
     <div ng-app="multiSelectExample">
         <multi-select
-            key="nodes"
+            key="simple"
             data="data"
+            on-close="onClose(key, selected)">
+        </multi-select>
+
+        <br></br><br></br><br></br><br></br>
+
+        <multi-select
+            key="hasSearch"
+            data="data"
+            power-search="true"
+            power-select="true"
             on-close="onClose(key, selected)">
         </multi-select>
     </div>

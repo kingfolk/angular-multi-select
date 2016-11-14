@@ -1,5 +1,5 @@
 <div class="multi-select">
-    <button id="select-button"
+    <button class="select-button"
         type="button"
         class="btn btn-default"
         ng-click="$ctrl.toggleDropDown( $event )"
@@ -13,17 +13,20 @@
         <div class="button-set-container" ng-show="$ctrl.powerSelect">
             <button
                 type="button"
-                class="btn btn-sm btn-default">
+                class="multi-btn"
+                ng-click="$ctrl.onSelectAll()">
                 select all
             </button>
             <button
                 type="button"
-                class="btn btn-sm btn-default">
+                class="multi-btn"
+                ng-click="$ctrl.onSelectNone()">
                 select none
             </button>
             <button
                 type="button"
-                class="btn btn-sm btn-default">
+                class="multi-btn"
+                ng-click="$ctrl.onReset()">
                 reset
             </button>
         </div>
@@ -31,10 +34,14 @@
             ng-show="$ctrl.powerSearch">
             <input type="text"
                 ng-model="searchKey"
-                ng-change="$ctrl.onSearchChange($event)">
+                ng-change="$ctrl.onSearchChange($event)"
+                placeholder="SEARCH">
+                <a class="clear" ng-click="$ctrl.deleteInput()">
+                    ×
+                </a>
             </input>
         </div>
-        <div nice-scrollbar suppress-scroll-x class="drop-down-list">
+        <div class="drop-down-list">
             <ul>
                 <li ng-repeat="node in model"
                     ng-show="node.filtered">

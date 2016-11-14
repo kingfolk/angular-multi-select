@@ -17,14 +17,16 @@ webpackJsonp([0,1],[
 	        console.log('selected: ', selected);
 	    }
 
-	    // $rootScope.data = [
-	    //     {name: 'node1'},
-	    //     {name: 'node2'},
-	    // ]
 
 	    $rootScope.data = [
 	        'node1',
 	        'node2',
+	        'node3',
+	        'node4',
+	        'node5',
+	        'node6',
+	        'node7',
+	        'node8',
 	    ]
 
 	}]);
@@ -31101,6 +31103,7 @@ webpackJsonp([0,1],[
 
 	function controller($scope, $element) {
 	    var self = this;
+	    var lastSelects = [];
 	    angular.bind(this, init)();
 
 	    this.toggleDropDown = function($event) {
@@ -31110,6 +31113,7 @@ webpackJsonp([0,1],[
 	    };
 
 	    this.toggleOpen = function() {
+	        lastSelects = util.getSelected($scope.model);
 	        angular.element( document ).on( 'keydown', this.keyboardListener );
 	        angular.element( document ).on( 'click', this.externalClickListener );
 	    };
@@ -31152,6 +31156,11 @@ webpackJsonp([0,1],[
 	        $scope.model = util.filterModel($scope.model, $scope.searchKey);
 	    };
 
+	    this.deleteInput = function() {
+	        $scope.searchKey = '';
+	        $scope.model = util.filterModel($scope.model, $scope.searchKey);
+	    }
+
 	    this.onSelectItem = function(node) {
 	        node.selected = !node.selected;
 
@@ -31163,6 +31172,32 @@ webpackJsonp([0,1],[
 	            });
 	        }
 	    };
+
+	    this.onSelectAll = function() {
+	        angular.forEach($scope.model, function(node) {
+	            if (node.filtered) node.selected = true;
+	        });
+	    }
+
+	    this.onSelectNone = function() {
+	        angular.forEach($scope.model, function(node) {
+	            node.selected = false;
+	        });
+	    }
+
+	    this.onReset = function() {
+	        // TODO
+	        var lastSelectsDict = {};
+	        angular.forEach(lastSelects, function(s) {
+	            lastSelectsDict[s] = 1;
+	        });
+	        angular.forEach($scope.model, function(node) {
+	            if (lastSelectsDict[node.name])
+	                node.selected = true;
+	            else
+	                node.selected = false;
+	        });
+	    }
 
 	    this.buttonText = function() {
 	        if ($scope.selected && $scope.selected.length > 0)
@@ -31237,7 +31272,7 @@ webpackJsonp([0,1],[
 
 
 	// module
-	exports.push([module.id, ".multi-select {\n  width: 180px;\n  height: 40px; }\n  .multi-select #select-button {\n    width: 100%;\n    height: 100%;\n    border: 1px solid #ddd; }\n    .multi-select #select-button span {\n      display: inline-block;\n      vertical-align: middle;\n      width: 90%;\n      overflow: hidden;\n      text-align: left; }\n    .multi-select #select-button .button-icon {\n      display: inline-block;\n      vertical-align: middle;\n      font-size: 50%;\n      color: gray; }\n  .multi-select #select-button.btn-default:focus, .multi-select .btn-default.focus {\n    background-color: white; }\n  .multi-select .button-set-container {\n    height: 40px;\n    padding: 5px; }\n  .multi-select .search-box-container {\n    height: 40px;\n    line-height: 25px;\n    padding: 5px; }\n    .multi-select .search-box-container input[type=text] {\n      width: 100%; }\n    .multi-select .search-box-container input[type=text]:focus {\n      box-shadow: 0 0 5px #259ae9;\n      border: 1px solid #259ae9; }\n  .multi-select .drop-down {\n    width: 220px;\n    border: 1px solid #ddd;\n    background-color: white;\n    z-index: 5;\n    position: absolute;\n    border-radius: 3px;\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }\n    .multi-select .drop-down .drop-down-list {\n      overflow-y: auto;\n      max-height: 250px;\n      border-top: 1px solid #ddd;\n      border-bottom: 1px solid #ddd; }\n      .multi-select .drop-down .drop-down-list ul {\n        padding: 0px; }\n      .multi-select .drop-down .drop-down-list li {\n        list-style: none; }\n      .multi-select .drop-down .drop-down-list li > a {\n        display: block;\n        color: #333;\n        width: 100%;\n        height: 30px;\n        line-height: 30px;\n        text-decoration: none;\n        cursor: default; }\n        .multi-select .drop-down .drop-down-list li > a span {\n          padding-left: 10px; }\n        .multi-select .drop-down .drop-down-list li > a:hover {\n          background-color: #e7eaeb; }\n        .multi-select .drop-down .drop-down-list li > a:active, .multi-select .drop-down .drop-down-list li > a.selected {\n          color: #ffffff;\n          background-color: #bdc7d4; }\n          .multi-select .drop-down .drop-down-list li > a:active i, .multi-select .drop-down .drop-down-list li > a.selected i {\n            color: #ffffff; }\n", ""]);
+	exports.push([module.id, ".multi-select {\n  width: 180px;\n  height: 40px; }\n  .multi-select .select-button {\n    width: 100%;\n    height: 100%;\n    border: 1px solid #ddd;\n    background-color: white; }\n    .multi-select .select-button span {\n      display: inline-block;\n      vertical-align: middle;\n      width: 90%;\n      overflow: hidden;\n      text-align: left; }\n    .multi-select .select-button .button-icon {\n      display: inline-block;\n      vertical-align: middle;\n      font-size: 50%;\n      color: gray; }\n  .multi-select .select-button.btn-default:focus, .multi-select .btn-default.focus {\n    background-color: white; }\n  .multi-select .button-set-container {\n    padding: 5px; }\n    .multi-select .button-set-container button {\n      display: inline-block;\n      vertical-align: middle; }\n    .multi-select .button-set-container .multi-btn {\n      cursor: pointer;\n      height: 24px;\n      text-align: center;\n      border: 1px solid #ccc;\n      color: #666;\n      background-color: #f1f1f1; }\n    .multi-select .button-set-container .multi-btn:hover {\n      border: 1px solid #ccc;\n      color: #999;\n      background-color: #f4f4f4; }\n  .multi-select .button-set-container:before {\n    content: \"\";\n    display: inline-block;\n    vertical-align: middle;\n    height: 100%; }\n  .multi-select .search-box-container {\n    line-height: 25px;\n    padding-left: 10px;\n    padding-right: 15px;\n    padding-bottom: 5px;\n    position: relative; }\n    .multi-select .search-box-container input[type=text] {\n      width: 100%;\n      height: 20px; }\n    .multi-select .search-box-container input[type=text]:focus {\n      box-shadow: 0 0 5px #259ae9;\n      border: 1px solid #259ae9; }\n    .multi-select .search-box-container .clear {\n      cursor: pointer;\n      position: absolute;\n      font-size: 12px;\n      top: 2px;\n      right: 15px;\n      color: #666; }\n    .multi-select .search-box-container .clear:hover {\n      color: #999; }\n  .multi-select .drop-down {\n    width: 230px;\n    border: 1px solid #ddd;\n    background-color: white;\n    z-index: 5;\n    position: absolute;\n    border-radius: 3px;\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }\n    .multi-select .drop-down .drop-down-list {\n      overflow-y: auto;\n      max-height: 250px;\n      border-top: 1px solid #ddd;\n      border-bottom: 1px solid #ddd; }\n      .multi-select .drop-down .drop-down-list ul {\n        padding: 0px;\n        margin: 0px; }\n      .multi-select .drop-down .drop-down-list li {\n        list-style: none; }\n      .multi-select .drop-down .drop-down-list li > a {\n        display: block;\n        color: #333;\n        width: 100%;\n        height: 30px;\n        line-height: 30px;\n        text-decoration: none;\n        cursor: default; }\n        .multi-select .drop-down .drop-down-list li > a span {\n          padding-left: 12px;\n          cursor: pointer; }\n        .multi-select .drop-down .drop-down-list li > a:hover {\n          background-color: #e7eaeb; }\n        .multi-select .drop-down .drop-down-list li > a:active, .multi-select .drop-down .drop-down-list li > a.selected {\n          color: #ffffff;\n          background-color: #bdc7d4; }\n          .multi-select .drop-down .drop-down-list li > a:active i, .multi-select .drop-down .drop-down-list li > a.selected i {\n            color: #ffffff; }\n", ""]);
 
 	// exports
 
@@ -31554,7 +31589,7 @@ webpackJsonp([0,1],[
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"multi-select\">\n    <button id=\"select-button\"\n        type=\"button\"\n        class=\"btn btn-default\"\n        ng-click=\"$ctrl.toggleDropDown( $event )\"\n        ng-disabled=\"disable-button\">\n        <span>\n            {{$ctrl.buttonText()}}\n        </span>\n        <!-- <i class=\"glyphicon glyphicon-triangle-bottom button-icon\"></i> -->\n    </button>\n    <div class=\"drop-down\" ng-show=\"toggled\">\n        <div class=\"button-set-container\" ng-show=\"$ctrl.powerSelect\">\n            <button\n                type=\"button\"\n                class=\"btn btn-sm btn-default\">\n                select all\n            </button>\n            <button\n                type=\"button\"\n                class=\"btn btn-sm btn-default\">\n                select none\n            </button>\n            <button\n                type=\"button\"\n                class=\"btn btn-sm btn-default\">\n                reset\n            </button>\n        </div>\n        <div class=\"search-box-container\"\n            ng-show=\"$ctrl.powerSearch\">\n            <input type=\"text\"\n                ng-model=\"searchKey\"\n                ng-change=\"$ctrl.onSearchChange($event)\">\n            </input>\n        </div>\n        <div nice-scrollbar suppress-scroll-x class=\"drop-down-list\">\n            <ul>\n                <li ng-repeat=\"node in model\"\n                    ng-show=\"node.filtered\">\n                    <a class=not-wrap\n                        ng-click=\"$ctrl.onSelectItem(node)\"\n                        ng-class=\"{'selected': node.selected}\">\n                        <span>{{node.name}}</span>\n                    </a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</div>\n"
+	module.exports = "<div class=\"multi-select\">\n    <button class=\"select-button\"\n        type=\"button\"\n        class=\"btn btn-default\"\n        ng-click=\"$ctrl.toggleDropDown( $event )\"\n        ng-disabled=\"disable-button\">\n        <span>\n            {{$ctrl.buttonText()}}\n        </span>\n        <!-- <i class=\"glyphicon glyphicon-triangle-bottom button-icon\"></i> -->\n    </button>\n    <div class=\"drop-down\" ng-show=\"toggled\">\n        <div class=\"button-set-container\" ng-show=\"$ctrl.powerSelect\">\n            <button\n                type=\"button\"\n                class=\"multi-btn\"\n                ng-click=\"$ctrl.onSelectAll()\">\n                select all\n            </button>\n            <button\n                type=\"button\"\n                class=\"multi-btn\"\n                ng-click=\"$ctrl.onSelectNone()\">\n                select none\n            </button>\n            <button\n                type=\"button\"\n                class=\"multi-btn\"\n                ng-click=\"$ctrl.onReset()\">\n                reset\n            </button>\n        </div>\n        <div class=\"search-box-container\"\n            ng-show=\"$ctrl.powerSearch\">\n            <input type=\"text\"\n                ng-model=\"searchKey\"\n                ng-change=\"$ctrl.onSearchChange($event)\"\n                placeholder=\"SEARCH\">\n                <a class=\"clear\" ng-click=\"$ctrl.deleteInput()\">\n                    ×\n                </a>\n            </input>\n        </div>\n        <div class=\"drop-down-list\">\n            <ul>\n                <li ng-repeat=\"node in model\"\n                    ng-show=\"node.filtered\">\n                    <a class=not-wrap\n                        ng-click=\"$ctrl.onSelectItem(node)\"\n                        ng-class=\"{'selected': node.selected}\">\n                        <span>{{node.name}}</span>\n                    </a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }
 ]);

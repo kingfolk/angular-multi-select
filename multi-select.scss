@@ -2,10 +2,11 @@
     width: 180px;
     height: 40px;
 
-    #select-button {
+    .select-button {
         width: 100%;
         height: 100%;
         border: 1px solid #ddd;
+        background-color: white;
 
         span {
             display: inline-block;
@@ -23,31 +24,76 @@
         }
     }
 
-    #select-button.btn-default:focus, .btn-default.focus {
+    .select-button.btn-default:focus, .btn-default.focus {
         background-color: white;
     }
 
     .button-set-container {
-        height: 40px;
+        // height: 30px;
         padding: 5px;
+
+        button {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .multi-btn {
+            cursor: pointer;
+            height: 24px;
+            text-align: center;
+            border: 1px solid #ccc;
+            color: #666;
+            background-color: #f1f1f1;
+        }
+
+        .multi-btn:hover {
+            border: 1px solid #ccc;
+            color: #999;
+            background-color: #f4f4f4;
+        }
+    }
+
+    .button-set-container:before {
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
     }
 
     .search-box-container {
-        height: 40px;
+        // height: 30px;
         line-height: 25px;
-        padding: 5px;
+        padding-left: 10px;
+        padding-right: 15px;
+        padding-bottom: 5px;
+        position: relative;
+
         input[type=text] {
             width: 100%;
+            height: 20px;
         }
 
         input[type=text]:focus {
             box-shadow: 0 0 5px #259ae9;
             border: 1px solid #259ae9;
         }
+
+        .clear {
+            cursor: pointer;
+            position: absolute;
+            font-size: 12px;
+            top: 2px;
+            right: 15px;
+            color: #666;
+        }
+
+        .clear:hover {
+            color: #999;
+        }
     }
 
     .drop-down {
-        width: 220px;
+        width: 230px;
         border: 1px solid #ddd;
         background-color: white;
         z-index: 5;
@@ -64,6 +110,7 @@
 
             ul {
                 padding: 0px;
+                margin: 0px;
             }
             li {
                 list-style: none;
@@ -79,7 +126,8 @@
                 cursor: default;
 
                 span {
-                    padding-left: 10px;
+                    padding-left: 12px;
+                    cursor: pointer;
                 }
 
                 &:hover {

@@ -29,6 +29,7 @@ var util = {
 
 function controller($scope, $element) {
     var self = this;
+    var lastSelects = [];
     angular.bind(this, init)();
 
     this.toggleDropDown = function($event) {
@@ -38,6 +39,7 @@ function controller($scope, $element) {
     };
 
     this.toggleOpen = function() {
+        lastSelects = util.getSelected($scope.model);
         angular.element( document ).on( 'keydown', this.keyboardListener );
         angular.element( document ).on( 'click', this.externalClickListener );
     };
@@ -80,6 +82,11 @@ function controller($scope, $element) {
         $scope.model = util.filterModel($scope.model, $scope.searchKey);
     };
 
+    this.deleteInput = function() {
+        $scope.searchKey = '';
+        $scope.model = util.filterModel($scope.model, $scope.searchKey);
+    }
+
     this.onSelectItem = function(node) {
         node.selected = !node.selected;
 
@@ -91,6 +98,32 @@ function controller($scope, $element) {
             });
         }
     };
+
+    this.onSelectAll = function() {
+        angular.forEach($scope.model, function(node) {
+            if (node.filtered) node.selected = true;
+        });
+    }
+
+    this.onSelectNone = function() {
+        angular.forEach($scope.model, function(node) {
+            node.selected = false;
+        });
+    }
+
+    this.onReset = function() {
+        // TODO
+        var lastSelectsDict = {};
+        angular.forEach(lastSelects, function(s) {
+            lastSelectsDict[s] = 1;
+        });
+        angular.forEach($scope.model, function(node) {
+            if (lastSelectsDict[node.name])
+                node.selected = true;
+            else
+                node.selected = false;
+        });
+    }
 
     this.buttonText = function() {
         if ($scope.selected && $scope.selected.length > 0)
