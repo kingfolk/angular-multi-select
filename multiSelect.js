@@ -87,9 +87,7 @@ function controller($scope, $element) {
         $scope.model = util.filterModel($scope.model, $scope.searchKey);
     }
 
-    this.onSelectItem = function(node) {
-        node.selected = !node.selected;
-
+    function selectionChanges() {
         $scope.selected = util.getSelected($scope.model);
         if (self.onSelectChange) {
             self.onSelectChange({
@@ -97,22 +95,29 @@ function controller($scope, $element) {
                 selected: angular.copy($scope.selected)
             });
         }
+    }
+
+    this.onSelectItem = function(node) {
+        node.selected = !node.selected;
+
+        selectionChanges();
     };
 
     this.onSelectAll = function() {
         angular.forEach($scope.model, function(node) {
             if (node.filtered) node.selected = true;
         });
+        selectionChanges();
     }
 
     this.onSelectNone = function() {
         angular.forEach($scope.model, function(node) {
             node.selected = false;
         });
+        selectionChanges();
     }
 
     this.onReset = function() {
-        // TODO
         var lastSelectsDict = {};
         angular.forEach(lastSelects, function(s) {
             lastSelectsDict[s] = 1;
@@ -123,6 +128,7 @@ function controller($scope, $element) {
             else
                 node.selected = false;
         });
+        selectionChanges();
     }
 
     this.buttonText = function() {
